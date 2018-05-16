@@ -5,16 +5,27 @@ defmodule ExDDNS.Application do
 
   use Application
 
-  def start(_type, _args) do
-    # List all child processes to be supervised
-    children = [
-      # Starts a worker by calling: ExDDNS.Worker.start_link(arg)
-      # {ExDDNS.Worker, arg},
-    ]
+  alias ExDDNS
+  alias ExDDNS.State.Server
 
+  def start(_type, _args) do
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: ExDDNS.Supervisor]
-    Supervisor.start_link(children, opts)
+
+    :exddns
+    |> Application.get_env(:env)
+    |> children
+    |> Supervisor.start_link(opts)
+  end
+
+  def children(:test), do: []
+
+  def children(_) do
+    import Supervisor.Spec
+
+    server_opts = ExDDNS.init_opts()
+
+    [worker(Server, [server_opts])]
   end
 end
