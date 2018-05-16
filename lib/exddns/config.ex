@@ -2,7 +2,7 @@ defmodule ExDDNS.Config do
   @moduledoc """
   Configuration for ExDDNS.
 
-  You can configure the ExDDNS by adding the required configuration
+  You can configure ExDDNS by adding the required configuration
   to your mix config:
 
       # config/config.exs
@@ -10,23 +10,33 @@ defmodule ExDDNS.Config do
 
       config :exddns, #{__MODULE__},
         domain: "example.com",
+        update_timeout: 15*60*1000,
+        service: ExDDNS.Services.Cloudflare
 
 
   Or you can set the variables in your environment:
 
   export EXDDNS_DOMAIN=user@example.com
+  export EXDDNS_UPDATE_TIMEOUT=900000
+  export EXDDNS_SERVICE=Cloudflare
+
+  The value for EXDDNS_SERVICE matches the name of the desired module without
+  the whole namespace.
   """
 
-  @enforce_keys ~w(domain)a
-  defstruct ~w(domain)a
+  @enforce_keys ~w(domain update_timeout service)a
+  defstruct ~w(domain update_timeout service)a
 
   @typedoc """
   Specifiels all common config values for `ExDDS`.
 
   ## Attributes
 
-  * `domain` Specifies the default domain for which dns record operations are
+  * `domain` Sets the default domain for which dns record operations are
     performed.
+  * `update_timeout` Sets the timeout in ms for the dns record update
+  * `service` Sets the service module which handles the API calls to the
+    dns service.
   """
   @type t :: %__MODULE__{
           domain: String.t()
@@ -39,7 +49,9 @@ defmodule ExDDNS.Config do
   @spec init :: __MODULE__.t()
   def init do
     %__MODULE__{
-      domain: get_config_value(:domain)
+      domain: get_config_value(:domain),
+      update_timeout: get_config_value(:update_timeout),
+      service: get_config_value(:service)
     }
   end
 
@@ -48,6 +60,7 @@ defmodule ExDDNS.Config do
     |> Application.get_env(__MODULE__)
     |> Kernel.||([])
     |> Keyword.get_lazy(key, fn -> fetch_from_env(key) end)
+    |> cast_value(key)
   end
 
   defp fetch_from_env(key) do
@@ -74,5 +87,32 @@ defmodule ExDDNS.Config do
 
   defp to_env_var(key) do
     "EXDDNS_#{key |> Atom.to_string() |> String.upcase()}"
+  end
+
+  defp cast_value(value, :update_timeout) when is_binary(value) do
+    case Integer.parse(value) do
+      {timeout, _} -> timeout
+      :error -> raise_cast_error(:update_timeout, value)
+    end
+  end
+
+  defp cast_value(value, :service) when is_binary(value) do
+    String.to_existing_atom("Elixir.ExDDNS.Services.#{value}")
+  rescue
+    ArgumentError -> raise_cast_error(:service, value)
+  end
+
+  defp cast_value(value, _), do: value
+
+  defp raise_cast_error(key, value) do
+    """
+    Failed to cast #{key} in #{__MODULE__}.
+
+    You have set a invalid value for `:#{key}`: #{value}. Check in your mix
+    config the value for  #{key} or make sure your environment has a valid value
+    for #{to_env_var(key)}.
+    """
+    |> String.trim()
+    |> raise
   end
 end
