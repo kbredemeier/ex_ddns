@@ -11,7 +11,9 @@ defmodule ExDDNS.Services.Cloudflare.Config do
       config :exddns, #{__MODULE__},
         x_auth_email: "user@example.com",
         x_auth_key: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-        zone_id: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        zone_id: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        domain: "example.com",
+        dns_record_id: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
 
 
   Or you can set the variables in your environment:
@@ -19,10 +21,12 @@ defmodule ExDDNS.Services.Cloudflare.Config do
   export CLOUDFLARE_X_AUTH_EMAIL=user@example.com
   export CLOUDFLARE_X_AUTH_KET=xxx
   export CLOUDFLARE_ZONE_ID=xxx
+  export CLOUDFLARE_DOMAIN=xxx
+  export CLOUDFLARE_DNS_RECORD_ID=xxx
   """
 
-  @enforce_keys ~w(x_auth_email x_auth_key zone_id)a
-  defstruct ~w(x_auth_email x_auth_key zone_id)a
+  @enforce_keys ~w(x_auth_email x_auth_key zone_id domain dns_record_id)a
+  defstruct ~w(x_auth_email x_auth_key zone_id domain dns_record_id)a
 
   @typedoc """
   Specifies all values required to use the Cloudflare `dns_records` API
@@ -33,11 +37,15 @@ defmodule ExDDNS.Services.Cloudflare.Config do
   * `x_auth_email` Specifies the value for the `X_AUTH_EMAIL` header.
   * `x_auth_key` Specifies the value for the `X_AUTH_KEY` header.
   * `zone_id` Specifies the Cloudflare zone id for the requests.
+  * `domain` Specifies the domain of the dns record.
+  * `dns_record_id` Specifies the Cloudflare dns record identifier.
   """
   @type t :: %__MODULE__{
           x_auth_email: String.t(),
           x_auth_key: String.t(),
-          zone_id: String.t()
+          zone_id: String.t(),
+          domain: String.t(),
+          dns_record_id: String.t()
         }
 
   @doc """
@@ -49,7 +57,9 @@ defmodule ExDDNS.Services.Cloudflare.Config do
     %__MODULE__{
       x_auth_email: get_config_value(:x_auth_email),
       x_auth_key: get_config_value(:x_auth_key),
-      zone_id: get_config_value(:zone_id)
+      zone_id: get_config_value(:zone_id),
+      domain: get_config_value(:domain),
+      dns_record_id: get_config_value(:dns_record_id)
     }
   end
 
