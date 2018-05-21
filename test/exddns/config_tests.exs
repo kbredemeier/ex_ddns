@@ -4,7 +4,6 @@ defmodule ExDDNS.ConfigTest do
   alias ExDDNS.Config
 
   @mix_config [
-    domain: "example.com",
     update_timeout: 1000,
     service: ExDDNS.Services.Cloudflare
   ]
@@ -19,10 +18,6 @@ defmodule ExDDNS.ConfigTest do
 
       Application.put_env(:exddns, Config, @mix_config)
       {:ok, config: Config.init()}
-    end
-
-    test "domain", %{config: config} do
-      assert config.domain == @mix_config[:domain]
     end
 
     test "update_timeout", %{config: config} do
@@ -48,10 +43,6 @@ defmodule ExDDNS.ConfigTest do
       System.put_env("EXDDNS_SERVICE", "Cloudflare")
 
       {:ok, config: Config.init()}
-    end
-
-    test "domain", %{config: config} do
-      assert config.domain == "aaa"
     end
 
     test "update_timeout", %{config: config} do

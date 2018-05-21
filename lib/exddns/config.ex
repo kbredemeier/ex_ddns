@@ -9,7 +9,6 @@ defmodule ExDDNS.Config do
       use Mix.Config
 
       config :exddns, #{__MODULE__},
-        domain: "example.com",
         update_timeout: 15*60*1000,
         service: ExDDNS.Services.Cloudflare
 
@@ -24,22 +23,19 @@ defmodule ExDDNS.Config do
   the whole namespace.
   """
 
-  @enforce_keys ~w(domain update_timeout service)a
-  defstruct ~w(domain update_timeout service)a
+  @enforce_keys ~w(update_timeout service)a
+  defstruct ~w(update_timeout service)a
 
   @typedoc """
   Specifiels all common config values for `ExDDS`.
 
   ## Attributes
 
-  * `domain` Sets the default domain for which dns record operations are
-    performed.
   * `update_timeout` Sets the timeout in ms for the dns record update
   * `service` Sets the service module which handles the API calls to the
     dns service.
   """
   @type t :: %__MODULE__{
-          domain: String.t(),
           service: module,
           update_timeout: number
         }
@@ -51,7 +47,6 @@ defmodule ExDDNS.Config do
   @spec init :: __MODULE__.t()
   def init do
     %__MODULE__{
-      domain: get_config_value(:domain),
       update_timeout: get_config_value(:update_timeout),
       service: get_config_value(:service)
     }
