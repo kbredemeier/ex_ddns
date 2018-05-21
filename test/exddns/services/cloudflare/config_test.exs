@@ -7,7 +7,8 @@ defmodule ExDDNS.Services.Cloudflare.ConfigTest do
     x_auth_email: "user@example.com",
     x_auth_key: "super secret key",
     zone_id: "asd-qwe-zxc-dfg-rty",
-    dns_record_id: "vnw-doq-sdn-asd-bgr"
+    dns_record_id: "vnw-doq-sdn-asd-bgr",
+    domain: "example.com"
   ]
 
   describe "init/0 reads values from mix config" do
@@ -114,7 +115,7 @@ defmodule ExDDNS.Services.Cloudflare.ConfigTest do
       System.put_env("CLOUDFLARE_DOMAIN", "ddd")
       System.put_env("CLOUDFLARE_DNS_RECORD_ID", "eee")
 
-      assert Config.init
+      assert Config.init()
 
       :ok
     end

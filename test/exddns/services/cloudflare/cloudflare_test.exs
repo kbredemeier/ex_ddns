@@ -113,6 +113,43 @@ defmodule ExDDNS.Services.CloudflareTest do
     end
   end
 
+  describe "get_errors_from_body/1" do
+    test "invalid body" do
+      assert [] == Cloudflare.get_errors_from_body("foo")
+    end
+
+    test "single error message" do
+      body = %{
+        "errors" => [
+          %{
+            "code" => 1004,
+            "message" => "DNS Validation Error"
+          }
+        ]
+      }
+
+      assert [{"DNS Validation Error", []}] ==
+               Cloudflare.get_errors_from_body(body)
+    end
+
+    test "with error chain" do
+      body = %{
+        "errors" => [
+          %{
+            "code" => 1004,
+            "error_chain" => [
+              %{"code" => 9020, "message" => "Invalid DNS record type"}
+            ],
+            "message" => "DNS Validation Error"
+          }
+        ]
+      }
+
+      assert [{"DNS Validation Error", [{"Invalid DNS record type", []}]}] ==
+               Cloudflare.get_errors_from_body(body)
+    end
+  end
+
   def build_config(opts \\ []) do
     applied_opts =
       Keyword.merge(

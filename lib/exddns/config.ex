@@ -39,7 +39,9 @@ defmodule ExDDNS.Config do
     dns service.
   """
   @type t :: %__MODULE__{
-          domain: String.t()
+          domain: String.t(),
+          service: module,
+          update_timeout: number
         }
 
   @doc """
