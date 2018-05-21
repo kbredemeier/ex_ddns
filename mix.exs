@@ -3,7 +3,7 @@ defmodule ExDDNS.MixProject do
 
   def project do
     [
-      app: :exddns,
+      app: :ex_ddns,
       version: "0.1.0",
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,

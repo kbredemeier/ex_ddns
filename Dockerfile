@@ -1,4 +1,4 @@
-from elixir:alpine AS builder
+from elixir AS builder
 
 ARG MIX_ENV=prod
 
@@ -6,7 +6,8 @@ MAINTAINER Kristopher Bredemeier <k.bredemeier@gmail.com>
 
 
 RUN \
-    apk --no-cache --update upgrade && \
+    apt-get update && \
+    apt-get upgrade -y && \
     mix local.hex --force && \
     mix local.rebar --force
 
@@ -35,7 +36,7 @@ RUN \
 WORKDIR /app
 
 # Copy build over from the builder container
-COPY --from=builder /app/_build/$MIX_ENV/rel/exddns .
+COPY --from=builder /app/_build/$MIX_ENV/rel/ex_ddns .
 
-CMD ["./bin/exddns", "foreground"]
+CMD ["./bin/ex_ddns", "foreground"]
 

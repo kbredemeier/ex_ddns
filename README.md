@@ -10,7 +10,7 @@ $ git clone https://github.com/kbredemeier/ex_ddns.git
 $ cd ex_ddns
 $ docker build --tag exddns:latest .
 $ docker run \
-  -e EXDDNS_SERVICE='Cloudflare' \
+  -e EX_DDNS_SERVICE='Cloudflare' \
   -e CLOUDFLARE_X_AUTH_EMAIL='user@example.com' \
   -e CLOUDFLARE_X_AUTH_KEY='xxxx' \
   -e CLOUDFLARE_ZONE_ID='xxxx' \

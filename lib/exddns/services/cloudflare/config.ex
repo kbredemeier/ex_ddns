@@ -8,7 +8,7 @@ defmodule ExDDNS.Services.Cloudflare.Config do
       # config/config.exs
       use Mix.Config
 
-      config :exddns, #{__MODULE__},
+      config :ex_ddns, #{__MODULE__},
         x_auth_email: "user@example.com",
         x_auth_key: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
         zone_id: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -64,7 +64,7 @@ defmodule ExDDNS.Services.Cloudflare.Config do
   end
 
   defp get_config_value(key) do
-    :exddns
+    :ex_ddns
     |> Application.get_env(__MODULE__)
     |> Kernel.||([])
     |> Keyword.get_lazy(key, fn -> fetch_from_env(key) end)

@@ -13,13 +13,13 @@ defmodule ExDDNS.Services.Cloudflare.ConfigTest do
 
   describe "init/0 reads values from mix config" do
     setup do
-      current_config = Application.get_env(:exddns, Config)
+      current_config = Application.get_env(:ex_ddns, Config)
 
       on_exit(fn ->
-        Application.put_env(:exddns, Config, current_config)
+        Application.put_env(:ex_ddns, Config, current_config)
       end)
 
-      Application.put_env(:exddns, Config, @mix_config)
+      Application.put_env(:ex_ddns, Config, @mix_config)
       {:ok, config: Config.init()}
     end
 
@@ -46,11 +46,11 @@ defmodule ExDDNS.Services.Cloudflare.ConfigTest do
 
   describe "init/0 reads values from env" do
     setup do
-      current_config = Application.get_env(:exddns, Config)
-      Application.put_env(:exddns, Config, [])
+      current_config = Application.get_env(:ex_ddns, Config)
+      Application.put_env(:ex_ddns, Config, [])
 
       on_exit(fn ->
-        Application.put_env(:exddns, Config, current_config)
+        Application.put_env(:ex_ddns, Config, current_config)
       end)
 
       System.put_env("CLOUDFLARE_X_AUTH_EMAIL", "aaa")
@@ -84,11 +84,11 @@ defmodule ExDDNS.Services.Cloudflare.ConfigTest do
   end
 
   test "init/0 raises an error if any value is missing" do
-    current_config = Application.get_env(:exddns, Config)
-    Application.put_env(:exddns, Config, [])
+    current_config = Application.get_env(:ex_ddns, Config)
+    Application.put_env(:ex_ddns, Config, [])
 
     on_exit(fn ->
-      Application.put_env(:exddns, Config, current_config)
+      Application.put_env(:ex_ddns, Config, current_config)
     end)
 
     System.put_env("CLOUDFLARE_X_AUTH_EMAIL", "")
@@ -102,11 +102,11 @@ defmodule ExDDNS.Services.Cloudflare.ConfigTest do
 
   describe "init/0 raises an error for missing config values casting" do
     setup do
-      current_config = Application.get_env(:exddns, Config)
-      Application.put_env(:exddns, Config, [])
+      current_config = Application.get_env(:ex_ddns, Config)
+      Application.put_env(:ex_ddns, Config, [])
 
       on_exit(fn ->
-        Application.put_env(:exddns, Config, current_config)
+        Application.put_env(:ex_ddns, Config, current_config)
       end)
 
       System.put_env("CLOUDFLARE_X_AUTH_EMAIL", "aaa")

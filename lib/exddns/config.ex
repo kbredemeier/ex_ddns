@@ -8,18 +8,18 @@ defmodule ExDDNS.Config do
       # config/config.exs
       use Mix.Config
 
-      config :exddns, #{__MODULE__},
+      config :ex_ddns, #{__MODULE__},
         update_timeout: 15*60*1000,
         service: ExDDNS.Services.Cloudflare
 
 
   Or you can set the variables in your environment:
 
-  export EXDDNS_DOMAIN=user@example.com
-  export EXDDNS_UPDATE_TIMEOUT=900000
-  export EXDDNS_SERVICE=Cloudflare
+  export EX_DDNS_DOMAIN=user@example.com
+  export EX_DDNS_UPDATE_TIMEOUT=900000
+  export EX_DDNS_SERVICE=Cloudflare
 
-  The value for EXDDNS_SERVICE matches the name of the desired module without
+  The value for EX_DDNS_SERVICE matches the name of the desired module without
   the whole namespace.
   """
 
@@ -53,7 +53,7 @@ defmodule ExDDNS.Config do
   end
 
   defp get_config_value(key) do
-    :exddns
+    :ex_ddns
     |> Application.get_env(__MODULE__)
     |> Kernel.||([])
     |> Keyword.get_lazy(key, fn -> fetch_from_env(key) end)
@@ -83,7 +83,7 @@ defmodule ExDDNS.Config do
   end
 
   defp to_env_var(key) do
-    "EXDDNS_#{key |> Atom.to_string() |> String.upcase()}"
+    "EX_DDNS_#{key |> Atom.to_string() |> String.upcase()}"
   end
 
   defp cast_value(value, :update_timeout) when is_binary(value) do

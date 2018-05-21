@@ -2,12 +2,12 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
-config :exddns, ExDDNS.Config,
+config :ex_ddns, ExDDNS.Config,
   domain: "example.com",
   update_timeout: 15 * 60 * 1000,
   service: ExDDNS.Services.Cloudflare
 
-config :exddns, ExDDNS.Services.Cloudflare.Config,
+config :ex_ddns, ExDDNS.Services.Cloudflare.Config,
   x_auth_email: "user@example.com",
   x_auth_key: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   zone_id: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -22,11 +22,11 @@ config :exddns, ExDDNS.Services.Cloudflare.Config,
 
 # You can configure your application as:
 #
-#     config :exddns, key: :value
+#     config :ex_ddns, key: :value
 #
 # and access this configuration in your application as:
 #
-#     Application.get_env(:exddns, :key)
+#     Application.get_env(:ex_ddns, :key)
 #
 # You can also configure a 3rd-party app:
 #

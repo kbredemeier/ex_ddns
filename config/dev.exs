@@ -1,3 +1,3 @@
 use Mix.Config
 
-config :exddns, :env, :dev
+config :ex_ddns, :env, :dev

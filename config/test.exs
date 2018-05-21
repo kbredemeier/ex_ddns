@@ -1,5 +1,5 @@
 use Mix.Config
 
-config :exddns, :env, :test
+config :ex_ddns, :env, :test
 
 config :tesla, adapter: Tesla.Mock

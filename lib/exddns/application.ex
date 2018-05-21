@@ -13,7 +13,7 @@ defmodule ExDDNS.Application do
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: ExDDNS.Supervisor]
 
-    :exddns
+    :ex_ddns
     |> Application.get_env(:env)
     |> children
     |> Supervisor.start_link(opts)

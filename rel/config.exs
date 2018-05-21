@@ -44,8 +44,8 @@ end
 # when running `mix release`, the first release in the file
 # will be used by default
 
-release :exddns do
-  set version: current_version(:exddns)
+release :ex_ddns do
+  set version: current_version(:ex_ddns)
   set applications: [
     :runtime_tools
   ]
