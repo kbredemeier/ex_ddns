@@ -3,6 +3,8 @@ defmodule ExDDNS do
   Documentation for ExDDNS.
   """
 
+  require Logger
+
   alias ExDDNS.Config
   alias ExDDNS.State.PublicIp
 
@@ -12,6 +14,7 @@ defmodule ExDDNS do
   @spec init_opts :: keyword
   def init_opts do
     config = Config.init()
+    Logger.info "Starting application with #{inspect config}"
 
     update_dns_record_fun =
       config.service
@@ -28,6 +31,7 @@ defmodule ExDDNS do
   defp build_update_dns_record_fun(service_mod) do
     service_config = apply(service_mod, :config, [])
     service_api_client = apply(service_mod, :client, [service_config])
+    Logger.info "Using #{inspect service_config}"
 
     fn ip_address ->
       opts = [
