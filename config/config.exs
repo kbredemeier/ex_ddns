@@ -3,16 +3,8 @@
 use Mix.Config
 
 config :ex_ddns, ExDDNS.Config,
-  domain: "example.com",
   update_timeout: 15 * 60 * 1000,
   service: ExDDNS.Services.Cloudflare
-
-config :ex_ddns, ExDDNS.Services.Cloudflare.Config,
-  x_auth_email: "user@example.com",
-  x_auth_key: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-  zone_id: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-  dns_record_id: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-  domain: "example.com"
 
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this
